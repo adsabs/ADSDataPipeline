@@ -70,8 +70,15 @@ data_files['data_link'] = {'path': 'links/facet_datasources/datasources.links', 
                            'extra_values': {'link_type': 'DATA', 'property': ['DATA']}, 'multiline': True,
                            'subparts': ['link_sub_type', 'item_count', ['url'], ['title']]}
 
+# combined to create the identifier field
+data_files['deleted'] = {'path': 'bibcodes.list.del.inv', 'default_value': [], 'multiline': True}
+data_files['doi'] = {'path': 'links/DOI/all.links', 'default_value': [], 'multiline': True}
+data_files['preprint'] = {'path': 'links/preprint/all.links', 'default_value': [], 'multiline': True}
+data_files['pub2arxiv'] = {'path': 'links/preprint/pub2arxiv.list', 'default_value': [], 'multiline': True}
+
 
 # computed fields are based on data read from the above files
 # each function name is a member function in process and takes the entire nonbib dict as an argument
 computed_fields = OrderedDict()
 computed_fields['bibgroup_facet'] = {'converter_function': '_compute_bibgroup_facet'}
+computed_fields['identifier'] = {'converter_function': '_compute_identifier'}
