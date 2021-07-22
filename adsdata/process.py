@@ -119,7 +119,8 @@ class Processor:
                 return_value.update(x)
 
         # finally, delete the keys not in the nonbib protobuf
-        not_needed = ['author', 'canonical', 'citation', 'download', 'item_count', 'nonarticle', 'ocrabstract', 'private', 'pub_openaccess',
+        not_needed = ['author', 'canonical', 'citation', 'deleted', 'doi', 'download', 'item_count', 'nonarticle',
+                      'ocrabstract', 'preprint', 'private', 'pub_openaccess', 'pub2arxiv',
                       'reads', 'refereed', 'relevance', 'toc']
         for n in not_needed:
             return_value.pop(n, None)
@@ -314,3 +315,16 @@ class Processor:
             return {}
         bibgroup_facet = sorted(list(set(bibgroup)))
         return {'bibgroup_facet': bibgroup_facet}
+
+    def _compute_identifier(self, d):
+        """solr field with bibcode and alternatives"""
+        ids = [d['bibcode']]
+        for field in ('deleted', 'doi', 'preprint', 'pub2arxiv'):
+            if (field == 'preprint'):
+                # prepend 'arxiv:' to each preprint string
+                d['preprint'] = ['arxiv:' + x for x in d.get('preprint', [])]
+            if len(d.get(field, [])) > 0:
+                ids.extend(d[field])
+        return {'identifier': ids}
+                
+         

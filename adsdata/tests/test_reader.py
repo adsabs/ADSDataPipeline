@@ -330,3 +330,28 @@ EEEEEEEEEEEEEEEEEEE\tE""")):
             self.assertEqual({"bibgroup": ["GTC", "Keck"]}, f.read_value_for('2021MNRAS.502..510J'))
             self.assertEqual({"bibgroup": []}, f.read_value_for('2021ZZZZZ.502..510J'))
 
+
+    def test_deleted(self):
+        with patch('builtins.open', return_value=StringIO('2013MNRAS.435.1904M\t2013MNRAS.tmp.2206M')):
+            f = reader.NonbibFileReader('deleted', data_files['deleted'])
+            a = f.read_value_for('2013MNRAS.435.1904M')
+            self.assertEqual({'deleted': ['2013MNRAS.tmp.2206M']}, a)
+
+    def test_doi(self):
+        with patch('builtins.open', return_value=StringIO('2013MNRAS.435.1904M\t10.1093/mnras/stt1379')):
+            f = reader.NonbibFileReader('doi', data_files['doi'])
+            a = f.read_value_for('2013MNRAS.435.1904M')
+            self.assertEqual({'doi': ['10.1093/mnras/stt1379']}, a)
+
+    def test_preprint(self):
+        with patch('builtins.open', return_value=StringIO('2013MNRAS.435.1904M\t1307.6556')):
+            f = reader.NonbibFileReader('preprint', data_files['preprint'])
+            a = f.read_value_for('2013MNRAS.435.1904M')
+            self.assertEqual({'preprint': ['1307.6556']}, a)
+
+    def test_pub2arxiv(self):
+        # where is this file?!
+        with patch('builtins.open', return_value=StringIO('2013MNRAS.435.1904M\t2013arXiv1307.6556M')):
+            f = reader.NonbibFileReader('pub2arxiv', data_files['pub2arxiv'])
+            a = f.read_value_for('2013MNRAS.435.1904M')
+            self.assertEqual({'pub2arxiv': ['2013arXiv1307.6556M']}, a)

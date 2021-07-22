@@ -62,7 +62,10 @@ class TestMemoryCache(unittest.TestCase):
                  "data_links_rows": [{"url": ["http://articles.adsabs.harvard.edu/pdf/2003ASPC..295..361M"], "link_type": "ESOURCE", "link_sub_type": "ADS_PDF", 'item_count': 0, 'title': ['']},
                                      {"url": ["http://articles.adsabs.harvard.edu/full/2003ASPC..295..361M"], "link_type": "ESOURCE", "link_sub_type": "ADS_SCAN", 'item_count': 0, 'title': ['']},
                                      {"url": [""], "link_type": "TOC", "link_sub_type": "NA", 'item_count': 0, 'title': ['']}],
-                 "esource": ["ADS_PDF", "ADS_SCAN"], "property": ["ADS_OPENACCESS", "ARTICLE", "ESOURCE", "NOT REFEREED", "OPENACCESS", "TOC"], "boost": 0.15, 'citation_count': 0, 'norm_cites': 0, 'citation_count_norm': 0.0, 'data': [], 'total_link_counts': 0}
+                 "esource": ["ADS_PDF", "ADS_SCAN"],
+                 "identifier": ["2003ASPC..295..361M"],
+                 "property": ["ADS_OPENACCESS", "ARTICLE", "ESOURCE", "NOT REFEREED", "OPENACCESS", "TOC"], "boost": 0.15, 'citation_count': 0, 'norm_cites': 0,
+                 'citation_count_norm': 0.0, 'data': [], 'total_link_counts': 0}
             self.assertEqual(a, n)
 
             d = processor._read_next_bibcode('2004MNRAS.354L..31M')
@@ -82,6 +85,7 @@ class TestMemoryCache(unittest.TestCase):
                                      {"url": ["https://$NED$/cgi-bin/objsearch?search_type=Search&refcode=2004MNRAS.354L..31M"], "title": ["NED Objects (1953)"], "item_count": 1953, "link_type": "DATA", "link_sub_type": "NED"},
                                      {"url": ["http://$SIMBAD$/simbo.pl?bibcode=2004MNRAS.354L..31M"], "title": ["SIMBAD Objects (1)"], "item_count": 1, "link_type": "DATA", "link_sub_type": "SIMBAD"},
                                      {"url": ["http://$VIZIER$/viz-bin/VizieR?-source=J/MNRAS/354/L31"], "item_count": 1, "link_type": "DATA", "link_sub_type": "Vizier", 'title': ['']}],
+                 "identifier": ["2004MNRAS.354L..31M"],
                  "norm_cites": 10000,
                  "data": ["CDS:1", "NED:1953", "SIMBAD:1", "Vizier:1"],
                  "citation_count_norm": 49.5,
@@ -218,3 +222,39 @@ class TestMemoryCache(unittest.TestCase):
         self.assertEqual({'bibgroup_facet': ['a']}, p._compute_bibgroup_facet({'bibgroup': ['a']}))
         self.assertEqual({'bibgroup_facet': ['a', 'b']}, p._compute_bibgroup_facet({'bibgroup': ['a', 'b']}))
         self.assertEqual({'bibgroup_facet': ['a', 'b']}, p._compute_bibgroup_facet({'bibgroup': ['a', 'b', 'a']}))
+
+    def test_compute_identifier(self):
+        p = Processor()
+        d = {'bibcode': '2013MNRAS.435.1904M',
+             'deleted': ['2013MNRAS.tmp.2206M'],
+             'doi': ['10.1093/mnras/stt1379'],
+             'preprint': ['1307.6556'],
+             'pub2arxiv': ['2013arXiv1307.6556M']}
+        a = p._compute_identifier(d)
+        self.assertEqual({'identifier': ['2013MNRAS.435.1904M', '2013MNRAS.tmp.2206M',
+                                         '10.1093/mnras/stt1379', 'arxiv:1307.6556', '2013arXiv1307.6556M']},
+                         a)
+
+        d = {'bibcode': 'bib',
+             'deleted': ['deleted1', 'deleted2'],
+             'doi': ['doia', 'doib'],
+             'preprint': ['preprintA', 'preprintB', 'preprintC'],
+             'pub2arxiv': ['arxivFoo', 'arxivBar']}
+        a = p._compute_identifier(d)
+        self.assertEqual({'identifier': ['bib',
+                                         'deleted1', 'deleted2',
+                                         'doia', 'doib',
+                                         'arxiv:preprintA', 'arxiv:preprintB', 'arxiv:preprintC',
+                                         'arxivFoo', 'arxivBar']},
+                         a)
+        d = {'bibcode': 'bib',
+             'deleted': [],
+             'doi': [],
+             'preprint': [],
+             'pub2arxiv': []}
+        a = p._compute_identifier(d)
+        self.assertEqual({'identifier': ['bib']}, a)
+        d = {'bibcode': 'bib'}
+        a = p._compute_identifier(d)
+        self.assertEqual({'identifier': ['bib']}, a)
+        
