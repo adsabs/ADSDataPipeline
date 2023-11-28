@@ -7,7 +7,6 @@ import unittest
 from adsdata import reader
 from adsdata.file_defs import data_files
 
-
 class TestReader(unittest.TestCase):
     """ it is important to have comprehensive tests for reader
 
@@ -330,3 +329,7 @@ EEEEEEEEEEEEEEEEEEE\tE""")):
             self.assertEqual({"bibgroup": ["GTC", "Keck"]}, f.read_value_for('2021MNRAS.502..510J'))
             self.assertEqual({"bibgroup": []}, f.read_value_for('2021ZZZZZ.502..510J'))
 
+    def test_planetary_names(self):
+        f = reader.NonbibFileReader('planetary_names', data_files['planetary_names'])
+        self.assertEqual({'planetary_names': ['Moon', 'Crater', 'Langrenus']}, f.read_value_for('2000Icar..146..420D'))
+        self.assertEqual({'planetary_names': ['Mars', 'Crater', 'Copernicus']},f.read_value_for('2004JGRE..10912009I'))
