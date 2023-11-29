@@ -53,7 +53,7 @@ class TestMemoryCache(unittest.TestCase):
             self.assertEqual(d['private'], {'private': False})
             self.assertEqual(d['pub_openaccess'], {'pub_openaccess': False})
             self.assertEqual(d['refereed'], {'refereed': False})
-            self.assertEqual(d['planetary_names'], ['Moon', 'Crater', 'Alder'])
+            self.assertEqual(d['gpn'], ['Moon', 'Crater', 'Alder'])
 
     def test_protobuf(self):
         """make sure protobuf are created without an exception"""
