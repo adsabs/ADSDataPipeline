@@ -53,8 +53,7 @@ class TestMemoryCache(unittest.TestCase):
             self.assertEqual(d['private'], {'private': False})
             self.assertEqual(d['pub_openaccess'], {'pub_openaccess': False})
             self.assertEqual(d['refereed'], {'refereed': False})
-            self.assertEqual(d['gpn'], [['Moon', 'Crater', 'Alder'], ['Moon', 'Crater', 'Finsen'], ['Moon', 'Crater', 'Leibnitz']])
-
+            self.assertEqual(d['gpn'], ['Moon/Mare/Mare Imbrium/3678', 'Moon/Crater/Alder/171', 'Moon/Crater/Finsen/1959', 'Moon/Crater/Leibnitz/3335'])
     def test_protobuf(self):
         """make sure protobuf are created without an exception"""
         with Processor(compute_metrics=False) as processor, patch('adsputils.load_config', return_value={'INPUT_DATA_ROOT': './test/data1/config/'}):
