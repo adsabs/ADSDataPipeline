@@ -332,4 +332,4 @@ EEEEEEEEEEEEEEEEEEE\tE""")):
     def test_planetary_names(self):
         f = reader.NonbibFileReader('gpn', data_files['gpn'])
         self.assertEqual({'gpn': ['Moon', 'Crater', 'Langrenus']}, f.read_value_for('2000Icar..146..420D'))
-        self.assertEqual({'gpn': ['Mars', 'Crater', 'Copernicus']},f.read_value_for('2004JGRE..10912009I'))
+        self.assertEqual({'gpn': [['Mars', 'Crater', 'Copernicus'],['Mars', 'Crater', 'Gusev'],['Mars', 'Crater', 'Kepler'],['Mars', 'Crater', 'New Plymouth'],['Mars', 'Crater', 'Newton']] },f.read_value_for('2004JGRE..10912009I'))
