@@ -1,7 +1,6 @@
 
 from adsdata import tasks
 from adsputils import load_config
-import pdb 
 
 class NonbibFileReader(object):
     """reads nonbib column files
