@@ -334,4 +334,8 @@ EEEEEEEEEEEEEEEEEEE\tE""")):
         self.assertEqual({'gpn': ['Moon/Crater/Langrenus/3273']}, f.read_value_for('2000Icar..146..420D'))
         self.assertEqual({'gpn': ['Mars/Patera/Apollinaris Patera/323', 'Mars/Fossa/Medusae Fossae/3795', 'Mars/Fossa/Sirenum Fossae/5575', 'Mars/Terra/Terra Cimmeria/5930', 'Mars/Terra/Terra Sirenum/5932', 'Mars/Crater/Copernicus/1297','Mars/Crater/Gusev/2289','Mars/Crater/Kepler/2991','Mars/Crater/New Plymouth/4231','Mars/Crater/Newton/4236'] },f.read_value_for('2004JGRE..10912009I'))
 
+    def test_uat(self):
+        f = reader.NonbibFileReader('uat', data_files['uat'])
+        self.assertEqual({'uat': ['astronomical sextants', 'celestial sphere', 'interstellar magnetic fields', 'lyman limit systems', 'm stars', 'plate tectonics', 'solar coronal streamers', 'center to limb observations']}, f.read_value_for('2021ApJ...911..101D'))
+        self.assertEqual({'uat': ['lunar transient phenomena', 'protogalaxies', 'rapid stellar oscillations']}, f.read_value_for('2021ApJ...922..164M'))
 
