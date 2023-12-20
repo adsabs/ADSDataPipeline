@@ -1,10 +1,16 @@
-2020AJ....160..175S	antapex	stellar classification	galaxy stellar disks	stellar interiors	zenith distance
-2020ApJ...892..106M	cosmic microwave background radiation	radio continuum emission	subgiant stars	x-ray telescopes	two-point correlation function	galaxy quenching	solid matter physics	comet nuclei	astronomy education	horizon
-2020ApJS..247...19M	f giant stars	origin of the universe	solar coronal radio emission	field stars	photodissociation reactions
-2020ApJS..249....7B	exoplanet evolution	gravitational instability	mesopause	nebulae	supernova evolution	astronomy data visualization	indigenous astronomy
-2021ApJ...909..204F	relativistic binary stars	stellar types
-2021ApJ...911..101D	astronomical sextants	celestial sphere	interstellar magnetic fields	lyman limit systems	m stars	plate tectonics	solar coronal streamers	center to limb observations
-2021ApJ...922..164M	lunar transient phenomena	protogalaxies	rapid stellar oscillations
-2022ApJ...934L...4T	proper motions	two-spectrum binary stars	stellar evolutionary models
-2022ApJ...941...95W	r stars	space observatories	spiral galaxies	three-body problem	virgo supercluster
-2023ApJ...954..108T	dust continuum emission	interstellar synchrotron emission	photoheliographs	protoplanetary nebulae	supergalactic longitude	chemical thermodynamics
+2020AJ....160..175S solar physics/solar motion/antapex	123
+2020AJ....160..175S observational astronomy/astronomical research/classification systems/stellar classification	123
+2020AJ....160..175S galactic and extra galactic astronomy/galaxy physics/galaxy disks/galaxy stellar disks	1523
+2020AJ....160..175S stellar astronomy/stellar physics/stellar structures/stellar interiors	1606
+2020ApJ...892..106M cosmology/origin of the universe/early universe/recombination (cosmology)/cosmic background radiation/cosmic microwave background radiation	322
+2020ApJ...892..106M cosmology/origin of the universe/big bang theory/recombination (cosmology)/cosmic background radiation/cosmic microwave background radiation	322
+2020ApJ...892..106M observational astronomy/astronomical methods/radio astronomy/cosmic noise/cosmic background radiation/cosmic microwave background radiation	322
+2020ApJ...892..106M cosmology/astronomical radiation sources/radio sources/radio continuum emission	5
+2020ApJ...892..106M interstellar medium/interstellar emissions/radio continuum emission	5
+2020ApJ...892..106M stellar astronomy/stellar types/stellar evolutionary types/evolved stars/subgiant stars	1646
+2021ApJ...911..101D observational astronomy/astronomical instrumentation/early astronomical instruments/astronomical sextants	93
+2021ApJ...911..101D observational astronomy/astronomical techniques/astrometry/astronomical coordinate systems/equatorial coordinate system/celestial sphere	467
+2021ApJ...922..164M solar system astronomy/lunar science/selenology/lunar features/lunar transient phenomena	976
+2021ApJ...922..164M galaxies/protogalaxies	573
+2021ApJ...922..164M stellar astronomy/stellar physics/stellar properties/stellar oscillations/rapid stellar oscillations	1363
+2021ApJ...922..164M stellar astronomy/astroseismology/stellar oscillations/rapid stellar oscillations	1363

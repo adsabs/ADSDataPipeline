@@ -336,6 +336,10 @@ EEEEEEEEEEEEEEEEEEE\tE""")):
 
     def test_uat(self):
         f = reader.NonbibFileReader('uat', data_files['uat'])
-        self.assertEqual({'uat': ['astronomical sextants', 'celestial sphere', 'interstellar magnetic fields', 'lyman limit systems', 'm stars', 'plate tectonics', 'solar coronal streamers', 'center to limb observations']}, f.read_value_for('2021ApJ...911..101D'))
-        self.assertEqual({'uat': ['lunar transient phenomena', 'protogalaxies', 'rapid stellar oscillations']}, f.read_value_for('2021ApJ...922..164M'))
+        self.assertEqual({'uat': ['observational astronomy/astronomical instrumentation/early astronomical instruments/astronomical sextants/93',
+                                  'observational astronomy/astronomical techniques/astrometry/astronomical coordinate systems/equatorial coordinate system/celestial sphere/467']}, f.read_value_for('2021ApJ...911..101D'))
+        self.assertEqual({'uat': ['solar system astronomy/lunar science/selenology/lunar features/lunar transient phenomena/976',
+                                    'galaxies/protogalaxies/573',
+                                    'stellar astronomy/stellar physics/stellar properties/stellar oscillations/rapid stellar oscillations/1363',
+                                    'stellar astronomy/astroseismology/stellar oscillations/rapid stellar oscillations/1363',]}, f.read_value_for('2021ApJ...922..164M'))
 
