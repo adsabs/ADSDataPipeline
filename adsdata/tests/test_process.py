@@ -36,6 +36,7 @@ class TestMemoryCache(unittest.TestCase):
             self.assertTrue(d['nonarticle'])
             self.assertEqual(d['ocrabstract'], {'ocrabstract': False})
             self.assertEqual(d['private'], {'private': False})
+            self.assertEqual(d['graphics'], {'graphics': False})
             self.assertEqual(d['pub_openaccess'], {'pub_openaccess': False})
             self.assertEqual(d['readers'], ['4fc45951aa', '557ebfd055', '57fcb9018a'])
             self.assertEqual(d['reads'], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 6])
@@ -120,7 +121,7 @@ class TestMemoryCache(unittest.TestCase):
                  "credit_count": 1,
                  "mention": ["2020xxxx.soft.....X"],
                  "mention_count": 1,
-                 "property": ["ADS_OPENACCESS", "ARTICLE", "ASSOCIATED", "DATA", "EPRINT_OPENACCESS", "ESOURCE", "INSPIRE", "OPENACCESS", "PUB_OPENACCESS", "REFEREED"],
+                 "property": ["ADS_OPENACCESS", "ARTICLE", "ASSOCIATED", "DATA", "EPRINT_OPENACCESS", "ESOURCE", "GRAPHICS", "INSPIRE", "OPENACCESS", "PUB_OPENACCESS", "REFEREED"],
                  "total_link_counts": 1956,
                  "esource": ["ADS_PDF", "ADS_SCAN", "EPRINT_HTML", "EPRINT_PDF", "PUB_HTML", "PUB_PDF"],
                  "boost": 0.4399999976158142}

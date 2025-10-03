@@ -207,6 +207,17 @@ EEEEEEEEEEEEEEEEEEE\tE""")):
             a = {'private': {'private': False}}
             self.assertEqual(a, v)
 
+    def test_graphics(self):
+        self.maxDiff = None
+        with patch('adsputils.load_config', return_value={'INPUT_DATA_ROOT': './test/data1/config/'}):
+            r = reader.NonbibFileReader('graphics', data_files['graphics'])
+            v = r.read_value_for('1920NW......8..958S')
+            a = {'graphics': {'graphics': True, 'property': ['GRAPHICS']}}
+            self.assertEqual(a, v)
+            v = r.read_value_for('2003ASPC..295..361M')
+            a = {'graphics': {'graphics': False}}
+            self.assertEqual(a, v)
+
     def test_associated(self):
         self.maxDiff = None
         with patch('builtins.open', return_value=StringIO('1850AJ......1...72H\t1850AJ......1...57H Main Paper\n1850AJ......1...72H\t1850AJ......1...72H Erratum')):

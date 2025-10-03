@@ -78,6 +78,8 @@ data_files['data_link'] = {'path': 'links/facet_datasources/datasources.links', 
                            'extra_values': {'link_type': 'DATA', 'property': ['DATA']}, 'multiline': True,
                            'subparts': ['link_sub_type', 'item_count', ['url'], ['title']]}
 data_files['planetary_feature'] = {'path': 'links/gpn/all.links', 'default_value': [], 'multiline': True}
+data_files['graphics'] = {'path': 'links/graphics/all.links', 'default_value': False,
+                         'extra_values': {'property': ['GRAPHICS']}}
 
 env_name = config.get('ENVIRONMENT', 'back-dev')
 data_files['uat'] = {'path': 'links/uat/uat.list.'+str(env_name), 'default_value': [], 'multiline': True}
