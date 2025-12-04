@@ -1,4 +1,3 @@
-
 import unittest
 from mock import patch, mock_open
 from datetime import datetime
@@ -85,45 +84,60 @@ class TestMemoryCache(unittest.TestCase):
         with Processor(compute_metrics=False) as processor, patch('adsputils.load_config', return_value={'INPUT_DATA_ROOT': './test/data1/config/'}):
             d = processor._read_next_bibcode('2003ASPC..295..361M')
             n = processor._convert(d)
-            a = {"read_count": 4, "bibcode": "2003ASPC..295..361M",
-                 'bibgroup': ['Chandra Technical'], 'bibgroup_facet': ['Chandra Technical'],
-                 "data_links_rows": [{"url": ["http://articles.adsabs.harvard.edu/pdf/2003ASPC..295..361M"], "link_type": "ESOURCE", "link_sub_type": "ADS_PDF", 'item_count': 0, 'title': ['']},
-                                     {"url": ["http://articles.adsabs.harvard.edu/full/2003ASPC..295..361M"], "link_type": "ESOURCE", "link_sub_type": "ADS_SCAN", 'item_count': 0, 'title': ['']},
-                                     {"url": [""], "link_type": "TOC", "link_sub_type": "NA", 'item_count': 0, 'title': ['']}],
-                 "esource": ["ADS_PDF", "ADS_SCAN"], "property": ["ADS_OPENACCESS", "ARTICLE", "ESOURCE", "NOT REFEREED", "OPENACCESS", "TOC"], "boost": 0.15, 'citation_count': 0, 'reference_count': 0, 'credit_count': 0, 'mention': ['2020xxxx.soft.....X', '2021yyyy.soft.....Y'], 'mention_count': 2,'norm_cites': 0, 'citation_count_norm': 0.0, 'data': [], 'total_link_counts': 0}
+            a = {'property': ['ADS_OPENACCESS', 'ARTICLE', 'ESOURCE', 'NOT REFEREED', 'OPENACCESS', 'TOC'], 'esource': ['ADS_PDF', 'ADS_SCAN'], 
+                 'bibcode': '2003ASPC..295..361M', 'bibgroup': ['Chandra Technical'], 'boost': 0.15, 'reference_count': 0, 'credit_count': 0, 'mention': ['2020xxxx.soft.....X', '2021yyyy.soft.....Y'], 'mention_count': 2,'read_count': 4, 'norm_cites': 0, 'data': [], 
+                 'total_link_counts': 0, 'citation_count': 0, 'citation_count_norm': 0.0, 
+                 'bibgroup_facet': ['Chandra Technical'], 'identifier': [], 
+                 'links': {'ARXIV': [], 'DOI': [], 'DATA': {}, 
+                           'ESOURCE': {'ADS_PDF': {'url': ['http://articles.adsabs.harvard.edu/pdf/2003ASPC..295..361M'], 'title': [''], 'count': 0}, 
+                                       'ADS_SCAN': {'url': ['http://articles.adsabs.harvard.edu/full/2003ASPC..295..361M'], 'title': [''], 'count': 0}}, 
+                                       'ASSOCIATED': {'url': [], 'title': [], 'count': 0}, 'INSPIRE': {'url': [], 'title': [], 'count': 0}, 
+                                       'LIBRARYCATALOG': {'url': [], 'title': [], 'count': 0}, 'PRESENTATION': {'url': [], 'title': [], 'count': 0}, 
+                                       'ABSTRACT': False,  # Master Pipeline will set to True
+                                       'CITATIONS': False, 
+                                       'GRAPHICS': False,  # Master Pipeline will set to True
+                                       'METRICS': False, 
+                                       'OPENURL': False,   # Master Pipeline will set to True
+                                       'REFERENCES': False, 
+                                       'TOC': False, 
+                                       'COREAD': False}}   # Master Pipeline will set to True
             self.assertEqual(a, n)
+            self._validate_nonbib_structure(n)
 
             d = processor._read_next_bibcode('2004MNRAS.354L..31M')
             v = processor._convert(d)
-            a = {"bibcode": "2004MNRAS.354L..31M",
-                 "simbad_objects": ["3253618 G"],
-                 "read_count": 20,
-                 "data_links_rows": [{"url": ["http://dx.doi.org/10.1111/j.1365-2966.2004.08374.x"], "link_type": "ESOURCE", "link_sub_type": "PUB_HTML", 'item_count': 0, 'title': ['']},
-                                     {"url": ["https://arxiv.org/abs/astro-ph/0405472"], "link_type": "ESOURCE", "link_sub_type": "EPRINT_HTML", 'item_count': 0, 'title': ['']},
-                                     {"url": ["https://academic.oup.com/mnras/pdf-lookup/doi/10.1111/j.1365-2966.2004.08374.x"], "link_type": "ESOURCE", "link_sub_type": "PUB_PDF", 'item_count': 0, 'title': ['']},
-                                     {"url": ["http://articles.adsabs.harvard.edu/pdf/2004MNRAS.354L..31M"], "link_type": "ESOURCE", "link_sub_type": "ADS_PDF", 'item_count': 0, 'title': ['']},
-                                     {"url": ["https://arxiv.org/pdf/astro-ph/0405472"], "link_type": "ESOURCE", "link_sub_type": "EPRINT_PDF", 'item_count': 0, 'title': ['']},
-                                     {"url": ["http://articles.adsabs.harvard.edu/full/2004MNRAS.354L..31M"], "link_type": "ESOURCE", "link_sub_type": "ADS_SCAN", 'item_count': 0, 'title': ['']},
-                                     {"url": ["2004MNRAS.354L..31M", "2005yCat..73549031M"], "title": ["Source Paper", "Catalog Description"], "link_type": "ASSOCIATED", "link_sub_type": "NA", 'item_count': 0},
-                                     {"url": ["http://inspirehep.net/search?p=find+j+MNRAA,354,L31"], "link_type": "INSPIRE", "link_sub_type": "NA", 'item_count': 0, 'title': ['']},
-                                     {"url": ["http://$VIZIER$/viz-bin/VizieR?-source=J/MNRAS/354/L31"], "item_count": 1, "link_type": "DATA", "link_sub_type": "CDS", 'title': ['']},
-                                     {"url": ["https://$NED$/cgi-bin/objsearch?search_type=Search&refcode=2004MNRAS.354L..31M"], "title": ["NED Objects (1953)"], "item_count": 1953, "link_type": "DATA", "link_sub_type": "NED"},
-                                     {"url": ["http://$SIMBAD$/simbo.pl?bibcode=2004MNRAS.354L..31M"], "title": ["SIMBAD Objects (1)"], "item_count": 1, "link_type": "DATA", "link_sub_type": "SIMBAD"},
-                                     {"url": ["http://$VIZIER$/viz-bin/VizieR?-source=J/MNRAS/354/L31"], "item_count": 1, "link_type": "DATA", "link_sub_type": "Vizier", 'title': ['']}],
-                 "norm_cites": 10000,
-                 "data": ["CDS:1", "NED:1953", "SIMBAD:1", "Vizier:1"],
-                 "citation_count_norm": 49.5,
-                 "citation_count": 99,
+            a = {'property': ['ADS_OPENACCESS', 'ARTICLE', 'ASSOCIATED', 'DATA', 'EPRINT_OPENACCESS', 'ESOURCE', 'INSPIRE', 'OPENACCESS', 'PUB_OPENACCESS', 'REFEREED'],
                  "reference": ["2004PhRvL..92q6804N", "1989TSF...171....5T"],
                  "reference_count": 2,
                  "credit": ["2001CoPhC.136..319S"],
                  "credit_count": 1,
                  "mention": ["2020xxxx.soft.....X"],
                  "mention_count": 1,
-                 "property": ["ADS_OPENACCESS", "ARTICLE", "ASSOCIATED", "DATA", "EPRINT_OPENACCESS", "ESOURCE", "INSPIRE", "OPENACCESS", "PUB_OPENACCESS", "REFEREED"],
-                 "total_link_counts": 1956,
-                 "esource": ["ADS_PDF", "ADS_SCAN", "EPRINT_HTML", "EPRINT_PDF", "PUB_HTML", "PUB_PDF"],
-                 "boost": 0.4399999976158142}
+                 'esource': ['ADS_PDF', 'ADS_SCAN', 'EPRINT_HTML', 'EPRINT_PDF', 'PUB_HTML', 'PUB_PDF'], 
+                 'bibcode': '2004MNRAS.354L..31M', 'boost': 0.44, 'read_count': 20, 'norm_cites': 10000, 
+                 'simbad_objects': ['3253618 G'], 'data': ['CDS:1', 'NED:1953', 'SIMBAD:1', 'Vizier:1'], 
+                 'total_link_counts': 1956, 'citation_count': 99, 'citation_count_norm': 49.5, 'identifier': [], 
+                 'links': {'ARXIV': [], 'DOI': [], 'DATA': {'CDS': {'url': ['http://$VIZIER$/viz-bin/VizieR?-source=J/MNRAS/354/L31'], 'title': [''], 'count': 1}, 
+                                                            'NED': {'url': ['https://$NED$/cgi-bin/objsearch?search_type=Search&refcode=2004MNRAS.354L..31M'], 'title': ['NED Objects (1953)'], 'count': 1953}, 
+                                                            'SIMBAD': {'url': ['http://$SIMBAD$/simbo.pl?bibcode=2004MNRAS.354L..31M'], 'title': ['SIMBAD Objects (1)'], 'count': 1}, 
+                                                            'Vizier': {'url': ['http://$VIZIER$/viz-bin/VizieR?-source=J/MNRAS/354/L31'], 'title': [''], 'count': 1}}, 
+                                                    'ESOURCE': {'ADS_PDF': {'url': ['http://articles.adsabs.harvard.edu/pdf/2004MNRAS.354L..31M'], 'title': [''], 'count': 0}, 
+                                                                'ADS_SCAN': {'url': ['http://articles.adsabs.harvard.edu/full/2004MNRAS.354L..31M'], 'title': [''], 'count': 0}, 
+                                                                'PUB_HTML': {'url': ['http://dx.doi.org/10.1111/j.1365-2966.2004.08374.x'], 'title': [''], 'count': 0}, 
+                                                                'EPRINT_HTML': {'url': ['https://arxiv.org/abs/astro-ph/0405472'], 'title': [''], 'count': 0}, 
+                                                                'PUB_PDF': {'url': ['https://academic.oup.com/mnras/pdf-lookup/doi/10.1111/j.1365-2966.2004.08374.x'], 'title': [''], 'count': 0}, 
+                                                                'EPRINT_PDF': {'url': ['https://arxiv.org/pdf/astro-ph/0405472'], 'title': [''], 'count': 0}}, 
+                                                    'ASSOCIATED': {'url': ['2004MNRAS.354L..31M', '2005yCat..73549031M'], 'title': ['Source Paper', 'Catalog Description'], 'count': 0}, 
+                                                    'INSPIRE': {'url': ['http://inspirehep.net/search?p=find+j+MNRAA,354,L31'], 'title': [''], 'count': 0}, 'LIBRARYCATALOG': {'url': [], 'title': [], 'count': 0},
+                                                    'PRESENTATION': {'url': [], 'title': [], 'count': 0},
+                                                    'ABSTRACT': False,  # Master Pipeline will set to True
+                                                    'CITATIONS': False, 
+                                                    'GRAPHICS': False,  # Master Pipeline will set to True
+                                                    'METRICS': False, 
+                                                    'OPENURL': False,   # Master Pipeline will set to True
+                                                    'REFERENCES': False, 
+                                                    'TOC': False, 
+                                                    'COREAD': False}}   # Master Pipeline will set to True
             v_boost = v.pop('boost')
             a_boost = a.pop('boost')
             self.assertAlmostEqual(a_boost, v_boost)
@@ -132,6 +146,107 @@ class TestMemoryCache(unittest.TestCase):
         # consider video 1997kbls.confE..10C
         # consider library 1810hdla.book.....V
         # consider inspire 1908PASP...20....1.
+
+    def _validate_nonbib_structure(self, record):
+        """Validate that the nonbib record has all required fields with correct types"""
+        
+        # Required string fields
+        self.assertIn('bibcode', record)
+        self.assertIn('identifier', record)
+        self.assertIsInstance(record['bibcode'], str)
+        self.assertIsInstance(record['identifier'], list)
+        
+        # Required numeric fields
+        numeric_fields = {
+            'boost': float,
+            'citation_count': int,
+            'read_count': int,
+            'total_link_counts': int,
+            'norm_cites': int,
+            'citation_count_norm': float
+        }
+        for field, expected_type in numeric_fields.items():
+            self.assertIn(field, record)
+            self.assertIsInstance(record[field], expected_type, 
+                                 f"Field {field} should be {expected_type.__name__}")
+        
+        # Required array fields 
+        required_array_fields = [
+            'property',  
+            'esource',   
+            'data',      
+            'identifier' 
+        ]
+
+        # Optional array fields 
+        optional_array_fields = [
+            'simbad_objects',
+            'grants',
+            'readers',
+            'reference',
+            'ned_objects',
+            'bibgroup',
+            'bibgroup_facet',
+            'gpn',
+            'uat'
+        ]
+
+        # Check required array fields
+        for field in required_array_fields:
+            self.assertIn(field, record)
+            self.assertIsInstance(record[field], list,
+                                 f"Field {field} should be a list")
+
+        # Check optional array fields if present
+        for field in optional_array_fields:
+            if field in record:
+                self.assertIsInstance(record[field], list,
+                                     f"Field {field} should be a list")
+        
+        # Validate links structure
+        self.assertIn('links', record)
+        links = record['links']
+        self.assertIsInstance(links, dict)
+        
+        # Direct link arrays
+        for field in ['ARXIV', 'DOI']:
+            self.assertIn(field, links)
+            self.assertIsInstance(links[field], (list))
+        
+        # Mapped link types
+        for field in ['DATA', 'ESOURCE']:
+            self.assertIn(field, links)
+            self.assertIsInstance(links[field], dict)
+            
+            # If there are subtypes, validate their structure
+            for subtype, value in links[field].items():
+                self.assertIsInstance(value, dict)
+                self.assertIn('url', value)
+                self.assertIsInstance(value['url'], (list))
+                self.assertIn('title', value)
+                self.assertIsInstance(value['title'], (list))
+                self.assertIn('count', value)
+                self.assertIsInstance(value['count'], int)
+        
+        # Link type records
+        for field in ['ASSOCIATED', 'INSPIRE', 'LIBRARYCATALOG', 'PRESENTATION']:
+            self.assertIn(field, links)
+            self.assertIsInstance(links[field], dict)
+            self.assertIn('url', links[field])
+            self.assertIsInstance(links[field]['url'], (list))
+            self.assertIn('title', links[field])
+            self.assertIsInstance(links[field]['title'], (list))
+            self.assertIn('count', links[field])
+            self.assertIsInstance(links[field]['count'], int)
+        
+        # Boolean flags
+        boolean_flags = [
+            'ABSTRACT', 'CITATIONS', 'GRAPHICS', 'METRICS',
+            'OPENURL', 'REFERENCES', 'TOC', 'COREAD'
+        ]
+        for field in boolean_flags:
+            self.assertIn(field, links)
+            self.assertIsInstance(links[field], bool, f"Links field {field} should be a boolean")
 
     def test_add_data_summary(self):
         self.maxDiff = None
@@ -252,3 +367,87 @@ class TestMemoryCache(unittest.TestCase):
         self.assertEqual({'bibgroup_facet': ['a']}, p._compute_bibgroup_facet({'bibgroup': ['a']}))
         self.assertEqual({'bibgroup_facet': ['a', 'b']}, p._compute_bibgroup_facet({'bibgroup': ['a', 'b']}))
         self.assertEqual({'bibgroup_facet': ['a', 'b']}, p._compute_bibgroup_facet({'bibgroup': ['a', 'b', 'a']}))
+
+    def test_multiple_bibcodes_no_link_leakage(self):
+        """Verify links don't leak between bibcodes when processing sequentially"""
+        self.maxDiff = None
+        
+        with Processor(compute_metrics=False) as processor, patch('adsputils.load_config', return_value={'INPUT_DATA_ROOT': './test/data1/config/'}):
+            # Process bibcode A - has ADS_PDF and ADS_SCAN esources
+            bibcode_a = '2003ASPC..295..361M'
+            d_a = processor._read_next_bibcode(bibcode_a)
+            result_a = processor._convert(d_a)
+            
+            # Verify A has only its own ESOURCE links
+            self.assertIn('ESOURCE', result_a['links'])
+            esource_a = result_a['links']['ESOURCE']
+            self.assertIn('ADS_PDF', esource_a)
+            self.assertIn('ADS_SCAN', esource_a)
+            
+            # Store A's link counts for later comparison
+            ads_pdf_urls_a = list(esource_a['ADS_PDF']['url'])
+            ads_scan_urls_a = list(esource_a['ADS_SCAN']['url'])
+            
+            # Verify A has only one URL per link type (its own)
+            self.assertEqual(len(ads_pdf_urls_a), 1, 
+                           f"Bibcode A should have exactly 1 ADS_PDF URL, got {len(ads_pdf_urls_a)}")
+            self.assertEqual(len(ads_scan_urls_a), 1,
+                           f"Bibcode A should have exactly 1 ADS_SCAN URL, got {len(ads_scan_urls_a)}")
+            
+            # Verify URLs contain the correct bibcode
+            self.assertIn(bibcode_a, ads_pdf_urls_a[0])
+            self.assertIn(bibcode_a, ads_scan_urls_a[0])
+            
+            # Now process bibcode B - has different esources (includes PUB_HTML, EPRINT_HTML, etc.)
+            bibcode_b = '2004MNRAS.354L..31M'
+            d_b = processor._read_next_bibcode(bibcode_b)
+            result_b = processor._convert(d_b)
+            
+            # Verify B has its own ESOURCE links
+            self.assertIn('ESOURCE', result_b['links'])
+            esource_b = result_b['links']['ESOURCE']
+            
+            # B should have ADS_PDF and ADS_SCAN (from its own data)
+            self.assertIn('ADS_PDF', esource_b)
+            self.assertIn('ADS_SCAN', esource_b)
+            
+            # B should have only its own URLs, NOT A's URLs
+            ads_pdf_urls_b = esource_b['ADS_PDF']['url']
+            ads_scan_urls_b = esource_b['ADS_SCAN']['url']
+            
+            # Check that B's URLs don't contain A's bibcode
+            for url in ads_pdf_urls_b:
+                self.assertNotIn(bibcode_a, url, 
+                               f"Bibcode B's ADS_PDF links leaked bibcode A's URL: {url}")
+                
+            for url in ads_scan_urls_b:
+                self.assertNotIn(bibcode_a, url,
+                               f"Bibcode B's ADS_SCAN links leaked bibcode A's URL: {url}")
+            
+            # Verify B has its own bibcode in its URLs
+            b_pdf_has_own_bibcode = any(bibcode_b in url for url in ads_pdf_urls_b)
+            b_scan_has_own_bibcode = any(bibcode_b in url for url in ads_scan_urls_b)
+            
+            self.assertTrue(b_pdf_has_own_bibcode, 
+                          f"Bibcode B should have its own bibcode in ADS_PDF URLs")
+            self.assertTrue(b_scan_has_own_bibcode,
+                          f"Bibcode B should have its own bibcode in ADS_SCAN URLs")
+            
+            # Also verify DATA links don't leak
+            # A has no DATA links, B has DATA links (CDS, NED, SIMBAD, Vizier)
+            data_a = result_a['links']['DATA']
+            data_b = result_b['links']['DATA']
+            
+            self.assertEqual(len(data_a), 0, "Bibcode A should have no DATA links")
+            self.assertGreater(len(data_b), 0, "Bibcode B should have DATA links")
+            
+            # Verify DATA subtypes in B
+            self.assertIn('CDS', data_b)
+            self.assertIn('NED', data_b)
+            self.assertIn('SIMBAD', data_b)
+            self.assertIn('Vizier', data_b)
+            
+            print(f"\n✅ Link leakage test passed!")
+            print(f"   Bibcode A processed: {len(ads_pdf_urls_a)} ADS_PDF URLs, {len(ads_scan_urls_a)} ADS_SCAN URLs")
+            print(f"   Bibcode B processed: {len(ads_pdf_urls_b)} ADS_PDF URLs, {len(ads_scan_urls_b)} ADS_SCAN URLs")
+            print(f"   No links from A leaked into B")
