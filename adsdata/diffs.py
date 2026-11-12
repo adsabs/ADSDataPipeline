@@ -63,7 +63,7 @@ class Diff:
             
             #if the path does not exist in previous/ (possible for CC_records) initialize an empty file.
             if not os.path.isfile(p) and CC_records:
-                command = "touch -d {}".format(p)
+                command = "touch {}".format(p)
                 cls.execute(command)
 
             # the process to computed changed bibcodes is:
